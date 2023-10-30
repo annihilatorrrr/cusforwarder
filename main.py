@@ -20,9 +20,9 @@ except Exception:
 
 
 def replaceshits(text: str):
-    for i in findall(r"(@[A-Za-z0-9_]+( |$|^\w))", text):
+    for i in findall(r"(@[A-Za-z0-9_]+( |$|\b))", text):
         text = text.replace(i[0], "")
-    for i in findall(r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|^\w))", text):
+    for i in findall(r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", text):
         text = text.replace(i[0], "")
     return text
 
