@@ -1,7 +1,7 @@
 FROM python:3.12.0-alpine3.18
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3.12 -m venv $VIRTUAL_ENV
-WORKDIR /pytemplate
+WORKDIR /cusforwarder
 ENV PATH="$VIRTUAL_ENV/bin:$PATH" TZ=Asia/Kolkata PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
 COPY requirements.txt .
 RUN apk update && apk upgrade --available && sync
