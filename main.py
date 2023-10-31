@@ -4,6 +4,7 @@ from os import environ
 from re import findall
 
 from pyrogram import Client
+from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, RPCError
 from pyrogram.filters import private, command, channel, user
 from pyrogram.types import Message
@@ -48,6 +49,9 @@ async def addchannel(c: Client, m: Message):
         except RPCError as e:
             await m.reply_text(e.MESSAGE)
             return
+        if source.type != ChatType.CHANNEL:
+            await m.reply_text("Chat is not a channel!")
+            return
         try:
             desti = await c.get_chat(args[1])
         except RPCError as e:
@@ -59,6 +63,9 @@ async def addchannel(c: Client, m: Message):
             pass
         try:
             ub = await c.get_chat_member(desti.id, c.me.id)
+            if not ub.privileges.can_post_messages:
+                await m.reply_text("I need: post message, promote members permission in the destination channel!")
+                return
             await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
         except:
             pass
