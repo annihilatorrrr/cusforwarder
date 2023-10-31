@@ -1,6 +1,9 @@
+from asyncio import sleep
+from gc import collect
 from re import findall
 
 from pyrogram import Client
+from pyrogram.errors import FloodWait, RPCError
 from pyrogram.filters import private, command, channel
 from pyrogram.types import Message
 from redis.asyncio import Redis
@@ -36,7 +39,7 @@ async def startb(_, m: Message):
 
 
 @pbot.on_message(command("addchannel") & private)
-async def addchannel(_, m: Message):
+async def addchannel(c: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 2:
         try:
@@ -53,13 +56,75 @@ async def addchannel(_, m: Message):
             await ubot.join_chat(desti.invite_link)
         except:
             pass
+        try:
+            ub = await c.get_chat_member(desti.id, c.me.id)
+            await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
+        except:
+            pass
+        await REDIS.set(source.id, desti.id)
+        await m.reply_text("Added!")
     else:
         await m.reply_text("Provide like: /addchannel sourcechatid destinationchatid")
     return
 
 
+@pbot.on_message(command("rmchannel") & private)
+async def rmchannel(c: Client, m: Message):
+    args = m.command[1:]
+    if len(args) >= 2:
+        try:
+            source = await c.get_chat(args[0])
+        except RPCError as e:
+            await m.reply_text(e.MESSAGE)
+            return
+        await REDIS.delete(source.id)
+        await m.reply_text("Remove!")
+    else:
+        await m.reply_text("Provide like: /rmchannel sourcechatid")
+    return
 
-async def worker(c: ubot, m: Message):
+
+@pbot.on_message(command("channels") & private)
+async def channels(_: Client, m: Message):
+    x = "Channels:\n"
+    for a in await REDIS.keys("-100"):
+        x += f"{a} - {await REDIS.get(a)}\n"
+    await m.reply_text(x)
+    return
+
+
+@pbot.on_message(command("words") & private)
+async def words(_: Client, m: Message):
+    x = "Words to be removed:\n"
+    for a in await REDIS.smembers("words"):
+        x += f"{a}\n"
+    await m.reply_text(x)
+    return
+
+
+@pbot.on_message(command("addword") & private)
+async def addword(_: Client, m: Message):
+    args = m.command[1:]
+    if len(args) >= 1:
+        await REDIS.sadd("words", *args)
+        await m.reply_text("Added!")
+    else:
+        await m.reply_text("Provide some words to add!")
+    return
+
+
+@pbot.on_message(command("rmword") & private)
+async def rmword(_: Client, m: Message):
+    args = m.command[1:]
+    if len(args) >= 1:
+        await REDIS.srem("words", *args)
+        await m.reply_text("Removed!")
+    else:
+        await m.reply_text("Provide some words to remove!")
+    return
+
+
+async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
         capt = await replaceshits(m.caption.html) if m.caption else None
         try:
@@ -74,7 +139,8 @@ async def worker(c: ubot, m: Message):
 
 @ubot.on_message(channel)
 async def forward(c: ubot, m: Message):
-    c.loop.create_task(worker(c, m))
+    c.loop.create_task(worker(m))
+    collect()
     return
 
 
