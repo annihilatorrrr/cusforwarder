@@ -1,5 +1,6 @@
 from asyncio import sleep
 from gc import collect
+from os import environ
 from re import findall
 
 from pyrogram import Client
@@ -8,11 +9,11 @@ from pyrogram.filters import private, command, channel, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
 
-TOKEN = ""
-STRING = ""
-API_ID = 0
-API_HASH = ""
-REDISDBURL = ""
+TOKEN = environ.get("TOKEN", "")
+STRING = environ.get("STRING", "")
+API_ID = int(environ.get("API_ID", 0))
+API_HASH = environ.get("API_HASH", "")
+REDISDBURL = environ.get("DB_URL", "")
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
