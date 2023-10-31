@@ -6,7 +6,7 @@ from re import findall
 from pyrogram import Client
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, RPCError
-from pyrogram.filters import private, command, channel, user
+from pyrogram.filters import channel, command, private, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
 
@@ -27,7 +27,9 @@ except Exception:
 async def replaceshits(text: str):
     for i in findall(r"(@[A-Za-z0-9_]+( |$|\b))", text):
         text = text.replace(i[0], "")
-    for i in findall(r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", text):
+    for i in findall(
+        r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", text
+    ):
         text = text.replace(i[0], "")
     for x in await REDIS.smembers("words"):
         text = text.replace(x, "")
@@ -64,7 +66,9 @@ async def addchannel(c: Client, m: Message):
         try:
             ub = await c.get_chat_member(desti.id, c.me.id)
             if not ub.privileges.can_post_messages:
-                await m.reply_text("I need: post message, promote members permission in the destination channel!")
+                await m.reply_text(
+                    "I need: post message, promote members permission in the destination channel!"
+                )
                 return
             await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
         except:
