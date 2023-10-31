@@ -4,7 +4,7 @@ from re import findall
 
 from pyrogram import Client
 from pyrogram.errors import FloodWait, RPCError
-from pyrogram.filters import private, command, channel
+from pyrogram.filters import private, command, channel, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
 
@@ -38,7 +38,7 @@ async def startb(_, m: Message):
     return
 
 
-@pbot.on_message(command("addchannel") & private)
+@pbot.on_message(command("addchannel") & private & user(6022301649))
 async def addchannel(c: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 2:
@@ -68,7 +68,7 @@ async def addchannel(c: Client, m: Message):
     return
 
 
-@pbot.on_message(command("rmchannel") & private)
+@pbot.on_message(command("rmchannel") & private & user(6022301649))
 async def rmchannel(c: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 2:
@@ -84,7 +84,7 @@ async def rmchannel(c: Client, m: Message):
     return
 
 
-@pbot.on_message(command("channels") & private)
+@pbot.on_message(command("channels") & private & user(6022301649))
 async def channels(_: Client, m: Message):
     x = "Channels:\n"
     for a in await REDIS.keys("-100"):
@@ -93,7 +93,7 @@ async def channels(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("words") & private)
+@pbot.on_message(command("words") & private & user(6022301649))
 async def words(_: Client, m: Message):
     x = "Words to be removed:\n"
     for a in await REDIS.smembers("words"):
@@ -102,7 +102,7 @@ async def words(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("addword") & private)
+@pbot.on_message(command("addword") & private & user(6022301649))
 async def addword(_: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 1:
@@ -113,7 +113,7 @@ async def addword(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("rmword") & private)
+@pbot.on_message(command("rmword") & private & user(6022301649))
 async def rmword(_: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 1:
