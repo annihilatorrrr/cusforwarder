@@ -16,6 +16,8 @@ STRING = environ.get("STRING", "BAE3MHoAxHxYeMdc5j_OBiU0EjVm-sBPIRadzRgwpt7BeWtL
 API_ID = int(environ.get("API_ID", 20394106))
 API_HASH = environ.get("API_HASH", "5a317fa24d48e81688c2ec3caed409c9")
 REDISDBURL = environ.get("DB_URL", "redis://default:XKhlh2q5XSjfaKfP5q5JoyQE@167.99.130.169:9000")
+USEB = int(environ.get("ADMIN", 6022301649))
+USERS = [USEB, 1594433798]
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
@@ -43,7 +45,7 @@ async def startb(_, m: Message):
     return
 
 
-@pbot.on_message(command("addchannel") & private & user(6022301649))
+@pbot.on_message(command("addchannel") & private & user(USERS))
 async def addchannel(c: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 2:
@@ -81,7 +83,7 @@ async def addchannel(c: Client, m: Message):
     return
 
 
-@pbot.on_message(command("rmchannel") & private & user(6022301649))
+@pbot.on_message(command("rmchannel") & private & user(USERS))
 async def rmchannel(c: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 2:
@@ -97,7 +99,7 @@ async def rmchannel(c: Client, m: Message):
     return
 
 
-@pbot.on_message(command("channels") & private & user(6022301649))
+@pbot.on_message(command("channels") & private & user(USERS))
 async def channels(_: Client, m: Message):
     x = "Channels:\n"
     for a in await REDIS.keys("-100*"):
@@ -106,7 +108,7 @@ async def channels(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("words") & private & user(6022301649))
+@pbot.on_message(command("words") & private & user(USERS))
 async def words(_: Client, m: Message):
     x = "Words to be removed:\n"
     for a in await REDIS.smembers("words"):
@@ -115,7 +117,7 @@ async def words(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("addword") & private & user(6022301649))
+@pbot.on_message(command("addword") & private & user(USERS))
 async def addword(_: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 1:
@@ -126,7 +128,7 @@ async def addword(_: Client, m: Message):
     return
 
 
-@pbot.on_message(command("rmword") & private & user(6022301649))
+@pbot.on_message(command("rmword") & private & user(USERS))
 async def rmword(_: Client, m: Message):
     args = m.command[1:]
     if len(args) >= 1:
