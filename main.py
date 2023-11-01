@@ -55,6 +55,8 @@ async def addchannel(c: Client, m: Message):
         if source.type != ChatType.CHANNEL:
             await m.reply_text("Chat is not a channel!")
             return
+        with suppress(UserAlreadyParticipant):
+            await ubot.join_chat(source.invite_link)
         try:
             desti = await c.get_chat(args[1])
         except RPCError as e:
@@ -72,7 +74,7 @@ async def addchannel(c: Client, m: Message):
             await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
         except:
             pass
-        await REDIS.set(str(source.id), desti.id)
+        await REDIS.set(source.id, desti.id)
         await m.reply_text("Added!")
     else:
         await m.reply_text("Provide like: /addchannel sourcechatid destinationchatid")
