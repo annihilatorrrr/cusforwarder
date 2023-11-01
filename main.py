@@ -11,11 +11,11 @@ from pyrogram.filters import channel, command, photo, private, text, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
 
-TOKEN = environ.get("TOKEN", "")
-STRING = environ.get("STRING", "")
-API_ID = int(environ.get("API_ID", 0))
-API_HASH = environ.get("API_HASH", "")
-REDISDBURL = environ.get("DB_URL", "")
+TOKEN = environ.get("TOKEN", "5389876148:AAGNcy61Tj2eTMTdU8ITIicr4HWUFdGA1rg")
+STRING = environ.get("STRING", "BAE3MHoAxHxYeMdc5j_OBiU0EjVm-sBPIRadzRgwpt7BeWtLC6GJH3KHqDdAnd24QslvnPHTCqrBn8aoxtNBSXg9JcCBSvfKe3TQklnRDQrdLElE2jDz9P5B_fQ_xG0ugAxDUW225AkzmdZ4n7yaar9yGUMvlyjX5cEQqbyeesJaUlInlvX3qB9f5HK4GpgEy3H9Tznj3r1_vujnWDqu20RMLd9F9V2zCWvmFa38fmsP-b3Vrzupj6s9172Ris5q0_KfJrgucYtBXuMd9aykw1fCDHjf0JD3WMHXRUF9pOytbMmynalrnFyKD-HI-OVuE4-tb3tkBTUecVHqFfah7OvdPSdUNwAAAAFm9QfRAA")
+API_ID = int(environ.get("API_ID", 20394106))
+API_HASH = environ.get("API_HASH", "5a317fa24d48e81688c2ec3caed409c9")
+REDISDBURL = environ.get("DB_URL", "redis://default:XKhlh2q5XSjfaKfP5q5JoyQE@167.99.130.169:9000")
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
@@ -139,7 +139,6 @@ async def rmword(_: Client, m: Message):
 
 async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
-        print(data)
         capt = (
             await replaceshits(m.caption.html)
             if m.caption
@@ -173,15 +172,13 @@ async def worker(m: Message):
                     await sleep(fe.value + 1)
                     await m.copy(int(data), caption=capt)
         except Exception:
-            pass
-    else:
-        print((111, m.chat.id))
+            return
     return
 
 
-@ubot.on_message(channel & photo & text, group=2)
-async def forward(c: ubot, m: Message):
-    await worker(m)
+@ubot.on_message(channel & photo | text, group=2)
+async def forward(c: Client, m: Message):
+    c.loop.create_task(worker(m))
     collect()
     return
 
