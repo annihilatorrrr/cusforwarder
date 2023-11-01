@@ -181,16 +181,10 @@ async def forward(c: ubot, m: Message):
     return
 
 
-async def start():
-    pbot.start()
-    ubot.start()
-    with suppress(UserAlreadyParticipant):
-        await ubot.join_chat("@Memers_Gallery")
-    print("Started!")
-    idle()
-    ubot.stop(True)
-    pbot.stop(True)
-    print("Bye!")
-
-
-pbot.run(start())
+pbot.start()
+ubot.start()
+print("Started!")
+idle()
+ubot.stop(True)
+pbot.stop(True)
+print("Bye!")
