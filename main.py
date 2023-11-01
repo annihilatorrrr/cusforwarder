@@ -72,7 +72,7 @@ async def addchannel(c: Client, m: Message):
             await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
         except:
             pass
-        await REDIS.set(source.id, desti.id)
+        await REDIS.set(str(source.id), desti.id)
         await m.reply_text("Added!")
     else:
         await m.reply_text("Provide like: /addchannel sourcechatid destinationchatid")
