@@ -1,4 +1,5 @@
 from asyncio import sleep
+from contextlib import suppress
 from gc import collect
 from os import environ
 from re import findall
@@ -6,9 +7,9 @@ from re import findall
 from uvloop import install
 
 install()
-from pyrogram import Client
+from pyrogram import Client, idle
 from pyrogram.enums import ChatType, ParseMode
-from pyrogram.errors import FloodWait, RPCError
+from pyrogram.errors import FloodWait, RPCError, UserAlreadyParticipant
 from pyrogram.filters import channel, command, photo, private, text, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
@@ -62,10 +63,8 @@ async def addchannel(c: Client, m: Message):
         except RPCError as e:
             await m.reply_text(e.MESSAGE)
             return
-        try:
+        with suppress(UserAlreadyParticipant):
             await ubot.join_chat(desti.invite_link)
-        except:
-            pass
         try:
             ub = await c.get_chat_member(desti.id, c.me.id)
             if not ub.privileges.can_post_messages:
@@ -186,7 +185,14 @@ async def forward(c: ubot, m: Message):
 
 
 pbot.start()
+ubot.start()
+with suppress(UserAlreadyParticipant):
+    ubot.loop.run_until_complete(ubot.join_chat("@Memers_Gallery"))
+with suppress(UserAlreadyParticipant):
+    ubot.loop.run_until_complete(ubot.join_chat("@MemersChatGroup"))
+ubot.loop.run_until_complete(ubot.send_message("@MemersChatGroup", "ACTIVATED BOT."))
 print("Started!")
-ubot.run()
+idle()
+ubot.stop(True)
 pbot.stop(True)
 print("Bye!")
