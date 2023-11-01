@@ -100,7 +100,7 @@ async def rmchannel(c: Client, m: Message):
 @pbot.on_message(command("channels") & private & user(6022301649))
 async def channels(_: Client, m: Message):
     x = "Channels:\n"
-    for a in await REDIS.keys("-100"):
+    for a in await REDIS.keys("-100*"):
         x += f"{a} - {await REDIS.get(a)}\n"
     await m.reply_text(x)
     return
@@ -139,6 +139,7 @@ async def rmword(_: Client, m: Message):
 
 async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
+        print(data)
         capt = (
             await replaceshits(m.caption.html)
             if m.caption
@@ -173,6 +174,8 @@ async def worker(m: Message):
                     await m.copy(int(data), caption=capt)
         except Exception:
             pass
+    else:
+        print((111, m.chat.id))
     return
 
 
