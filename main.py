@@ -9,7 +9,7 @@ install()
 from pyrogram import Client
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, RPCError
-from pyrogram.filters import channel, command, private, user
+from pyrogram.filters import channel, command, photo, private, text, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
 
@@ -152,7 +152,7 @@ async def worker(m: Message):
     return
 
 
-@ubot.on_message(channel)
+@ubot.on_message(channel & photo & text)
 async def forward(c: ubot, m: Message):
     c.loop.create_task(worker(m))
     collect()
