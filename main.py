@@ -7,8 +7,8 @@ from uvloop import install
 
 install()
 from pyrogram import Client
-from pyrogram.enums import ChatType
-from pyrogram.errors import FloodWait, RPCError
+from pyrogram.enums import ChatType, Parse
+from pyrogram.errors import FloodWait, ParseMode, RPCError
 from pyrogram.filters import channel, command, photo, private, text, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
@@ -141,12 +141,30 @@ async def rmword(_: Client, m: Message):
 
 async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
-        capt = await replaceshits(m.caption.html) if m.caption else None
+        capt = await replaceshits(m.caption.html) if m.caption else await replaceshits(m.text.html) if m.text else None
         try:
-            await m.copy(int(data), caption=capt)
-        except FloodWait as fe:
-            await sleep(fe.value + 1)
-            await m.copy(int(data), caption=capt)
+            if m.text:
+                try:
+                    await ubot.send_message(
+                        int(data),
+                        capt,
+                        ParseMode.HTML,
+                        disable_web_page_preview=not m.web_page,
+                    )
+                except FloodWait as e:
+                    await sleep(e.value + 1)
+                    await ubot.send_message(
+                        int(data),
+                        capt,
+                        ParseMode.HTML,
+                        disable_web_page_preview=not m.web_page,
+                    )
+            else:
+                try:
+                    await m.copy(int(data), caption=capt)
+                except FloodWait as fe:
+                    await sleep(fe.value + 1)
+                    await m.copy(int(data), caption=capt)
         except Exception:
             pass
     return
