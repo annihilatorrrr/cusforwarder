@@ -174,9 +174,9 @@ async def worker(m: Message):
     return
 
 
-@ubot.on_message(channel & photo & text)
+@ubot.on_message(channel & photo & text, group=2)
 async def forward(c: ubot, m: Message):
-    c.loop.create_task(worker(m))
+    await worker(m)
     collect()
     return
 
