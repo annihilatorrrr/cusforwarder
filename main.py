@@ -12,10 +12,15 @@ from pyrogram.types import Message
 from redis.asyncio import Redis
 
 TOKEN = environ.get("TOKEN", "5389876148:AAGNcy61Tj2eTMTdU8ITIicr4HWUFdGA1rg")
-STRING = environ.get("STRING", "BAE3MHoAxHxYeMdc5j_OBiU0EjVm-sBPIRadzRgwpt7BeWtLC6GJH3KHqDdAnd24QslvnPHTCqrBn8aoxtNBSXg9JcCBSvfKe3TQklnRDQrdLElE2jDz9P5B_fQ_xG0ugAxDUW225AkzmdZ4n7yaar9yGUMvlyjX5cEQqbyeesJaUlInlvX3qB9f5HK4GpgEy3H9Tznj3r1_vujnWDqu20RMLd9F9V2zCWvmFa38fmsP-b3Vrzupj6s9172Ris5q0_KfJrgucYtBXuMd9aykw1fCDHjf0JD3WMHXRUF9pOytbMmynalrnFyKD-HI-OVuE4-tb3tkBTUecVHqFfah7OvdPSdUNwAAAAFm9QfRAA")
+STRING = environ.get(
+    "STRING",
+    "BAE3MHoAxHxYeMdc5j_OBiU0EjVm-sBPIRadzRgwpt7BeWtLC6GJH3KHqDdAnd24QslvnPHTCqrBn8aoxtNBSXg9JcCBSvfKe3TQklnRDQrdLElE2jDz9P5B_fQ_xG0ugAxDUW225AkzmdZ4n7yaar9yGUMvlyjX5cEQqbyeesJaUlInlvX3qB9f5HK4GpgEy3H9Tznj3r1_vujnWDqu20RMLd9F9V2zCWvmFa38fmsP-b3Vrzupj6s9172Ris5q0_KfJrgucYtBXuMd9aykw1fCDHjf0JD3WMHXRUF9pOytbMmynalrnFyKD-HI-OVuE4-tb3tkBTUecVHqFfah7OvdPSdUNwAAAAFm9QfRAA",
+)
 API_ID = int(environ.get("API_ID", 20394106))
 API_HASH = environ.get("API_HASH", "5a317fa24d48e81688c2ec3caed409c9")
-REDISDBURL = environ.get("DB_URL", "redis://default:XKhlh2q5XSjfaKfP5q5JoyQE@167.99.130.169:9000")
+REDISDBURL = environ.get(
+    "DB_URL", "redis://default:XKhlh2q5XSjfaKfP5q5JoyQE@167.99.130.169:9000"
+)
 USEB = int(environ.get("ADMIN", 6022301649))
 USERS = [USEB, 1594433798]
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
