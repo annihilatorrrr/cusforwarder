@@ -101,7 +101,7 @@ async def rmchannel(c: Client, m: Message):
 async def channels(_: Client, m: Message):
     x = "Channels:\n"
     for a in await REDIS.keys("-100*"):
-        x += f"{a} - {await REDIS.get(a)}\n"
+        x += f"> {a}: {await REDIS.get(a)}\n"
     await m.reply_text(x)
     return
 
@@ -110,7 +110,7 @@ async def channels(_: Client, m: Message):
 async def words(_: Client, m: Message):
     x = "Words to be removed:\n"
     for a in await REDIS.smembers("words"):
-        x += f"{a}\n"
+        x += f"> {a}\n"
     await m.reply_text(x)
     return
 
