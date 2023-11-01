@@ -7,8 +7,8 @@ from uvloop import install
 
 install()
 from pyrogram import Client
-from pyrogram.enums import ChatType, Parse
-from pyrogram.errors import FloodWait, ParseMode, RPCError
+from pyrogram.enums import ChatType, ParseMode
+from pyrogram.errors import FloodWait, RPCError
 from pyrogram.filters import channel, command, photo, private, text, user
 from pyrogram.types import Message
 from redis.asyncio import Redis
@@ -27,16 +27,16 @@ except Exception:
     exit("Unable to connect with redisdb !")
 
 
-async def replaceshits(text: str):
-    for i in findall(r"(@[A-Za-z0-9_]+( |$|\b))", text):
-        text = text.replace(i[0], "")
+async def replaceshits(tex: str):
+    for i in findall(r"(@[A-Za-z0-9_]+( |$|\b))", tex):
+        tex = tex.replace(i[0], "")
     for i in findall(
-        r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", text
+        r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", tex
     ):
-        text = text.replace(i[0], "")
+        tex = tex.replace(i[0], "")
     for x in await REDIS.smembers("words"):
-        text = text.replace(x, "")
-    return text
+        tex = tex.replace(x, "")
+    return tex
 
 
 @pbot.on_message(command("start") & private)
@@ -150,6 +150,8 @@ async def worker(m: Message):
         )
         try:
             if m.text:
+                if not capt:
+                    return
                 try:
                     await ubot.send_message(
                         int(data),
