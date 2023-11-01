@@ -141,7 +141,13 @@ async def rmword(_: Client, m: Message):
 
 async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
-        capt = await replaceshits(m.caption.html) if m.caption else await replaceshits(m.text.html) if m.text else None
+        capt = (
+            await replaceshits(m.caption.html)
+            if m.caption
+            else await replaceshits(m.text.html)
+            if m.text
+            else None
+        )
         try:
             if m.text:
                 try:
