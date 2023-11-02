@@ -65,9 +65,8 @@ async def addchannel(c: Client, m: Message):
         if source.type != ChatType.CHANNEL:
             await m.reply_text("Chat is not a channel!")
             return
-        print("a")
         with suppress(UserAlreadyParticipant):
-            await ubot.join_chat(source.invite_link)
+            await ubot.join_chat(source.id)
             print("b")
         print("c")
         print(args)
@@ -80,7 +79,7 @@ async def addchannel(c: Client, m: Message):
             return
         print("f")
         with suppress(UserAlreadyParticipant):
-            await ubot.join_chat(desti.invite_link)
+            await ubot.join_chat(desti.id)
             print("h")
         print("g")
         try:
