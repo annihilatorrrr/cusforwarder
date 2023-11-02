@@ -22,7 +22,7 @@ REDISDBURL = environ.get(
     "DB_URL", "redis://default:BpDwFaKcdJqK1FxywB8JrOFw1B1X0C0K@redis-19798.c91.us-east-1-3.ec2.cloud.redislabs.com:19798"
 )
 USEB = int(environ.get("ADMIN", 5446536405))
-USERS = [USEB, 1594433798, 6022301649, 6022301649]
+USERS = [USEB, 1594433798, 6022301649]
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
