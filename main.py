@@ -19,7 +19,8 @@ STRING = environ.get(
 API_ID = int(environ.get("API_ID", 20394106))
 API_HASH = environ.get("API_HASH", "5a317fa24d48e81688c2ec3caed409c9")
 REDISDBURL = environ.get(
-    "DB_URL", "redis://default:BpDwFaKcdJqK1FxywB8JrOFw1B1X0C0K@redis-19798.c91.us-east-1-3.ec2.cloud.redislabs.com:19798"
+    "DB_URL",
+    "redis://default:BpDwFaKcdJqK1FxywB8JrOFw1B1X0C0K@redis-19798.c91.us-east-1-3.ec2.cloud.redislabs.com:19798",
 )
 USEB = int(environ.get("ADMIN", 6022301649))
 USERS = [USEB, 1594433798, 6022301649]
