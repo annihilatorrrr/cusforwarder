@@ -67,37 +67,23 @@ async def addchannel(c: Client, m: Message):
             return
         with suppress(UserAlreadyParticipant):
             await ubot.join_chat(source.id)
-            print("b")
-        print("c")
-        print(args)
         try:
             desti = await c.get_chat(args[1])
-            print("d")
         except RPCError as e:
-            print(e)
             await m.reply_text(e.MESSAGE)
             return
-        print("f")
         with suppress(UserAlreadyParticipant):
             await ubot.join_chat(desti.id)
-            print("h")
-        print("g")
         try:
-            print("i")
             ub = await c.get_chat_member(desti.id, c.me.id)
-            print("j")
             if not ub.privileges.can_post_messages:
-                print("k")
                 await m.reply_text(
                     "I need: post message, promote members permission in the destination channel!"
                 )
                 return
-            print("l")
             await c.promote_chat_member(desti.id, ubot.me.id, ub.privileges)
         except:
-            print("m")
             pass
-        print("n")
         await REDIS.set(source.id, desti.id)
         await m.reply_text("Added!")
     else:
@@ -108,7 +94,7 @@ async def addchannel(c: Client, m: Message):
 @pbot.on_message(command("rmchannel") & private & user(USERS))
 async def rmchannel(c: Client, m: Message):
     args = m.command[1:]
-    if len(args) >= 2:
+    if len(args) >= 1:
         try:
             source = await c.get_chat(args[0])
         except RPCError as e:
