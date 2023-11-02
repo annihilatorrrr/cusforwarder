@@ -21,8 +21,8 @@ API_HASH = environ.get("API_HASH", "5a317fa24d48e81688c2ec3caed409c9")
 REDISDBURL = environ.get(
     "DB_URL", "redis://default:BpDwFaKcdJqK1FxywB8JrOFw1B1X0C0K@redis-19798.c91.us-east-1-3.ec2.cloud.redislabs.com:19798"
 )
-USEB = int(environ.get("ADMIN", 6022301649))
-USERS = [USEB, 1594433798, 6022301649]
+USEB = int(environ.get("ADMIN", 5446536405))
+USERS = [USEB, 1594433798, 6022301649, 6022301649]
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
@@ -57,7 +57,7 @@ async def addchannel(c: Client, m: Message):
         try:
             source = await c.get_chat(args[0])
         except RPCError as e:
-            await m.reply_text(e.MESSAGE)
+            await m.reply_text(f"Error: {e.MESSAGE}; I don't know that channel yet, so try with username or just forward me a message from source channel and try again this command!")
             return
         if source.type != ChatType.CHANNEL:
             await m.reply_text("Chat is not a channel!")
