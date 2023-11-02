@@ -34,7 +34,7 @@ except Exception:
 
 
 async def replaceshits(tex: str):
-    for i in findall(r"(@[A-Za-z0-9_]+( |$|\b))", tex):
+    for i in findall(r"(@[A-Za-z0-9_]*[A-Za-z]+[A-Za-z0-9_]*( |$|\b))", tex):
         tex = tex.replace(i[0], "")
     for i in findall(
         r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", tex
