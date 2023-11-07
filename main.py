@@ -97,10 +97,12 @@ async def rmchannel(c: Client, m: Message):
     if len(args) >= 1:
         try:
             source = await c.get_chat(args[0])
-        except RPCError as e:
-            await m.reply_text(e.MESSAGE)
-            return
-        await REDIS.delete(source.id)
+            args[0] = source.id
+        except RPCError:
+            if not args[0].startswith("-100"):
+                await m.reply_text("Please provide the channel id")
+                return
+        await REDIS.delete(args[0])
         await m.reply_text("Remove!")
     else:
         await m.reply_text("Provide like: /rmchannel sourcechatid")
