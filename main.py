@@ -4,6 +4,9 @@ from gc import collect
 from os import environ
 from re import findall
 
+from uvloop import install
+
+install()
 from pyrogram import Client, idle
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.errors import FloodWait, RPCError, UserAlreadyParticipant
