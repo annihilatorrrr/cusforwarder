@@ -25,7 +25,10 @@ REDISDBURL = environ.get(
 USEB = int(environ.get("ADMIN", 5446536405))
 USERS = [USEB, 1594433798, 6022301649]
 pbot = Client("forwardbot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
-ubot = Client("forwarder", api_id=API_ID, api_hash=API_HASH, session_string=STRING)
+ubot = Client("forwarder",
+              api_id=API_ID,
+              api_hash=API_HASH,
+              session_string=STRING)
 REDIS = Redis.from_url(REDISDBURL, decode_responses=True)
 try:
     pbot.loop.run_until_complete(REDIS.ping())
@@ -37,8 +40,8 @@ async def replaceshits(tex: str):
     for i in findall(r"(@[A-Za-z0-9_]*[A-Za-z]+[A-Za-z0-9_]*( |$|\b))", tex):
         tex = tex.replace(i[0], "")
     for i in findall(
-        r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))", tex
-    ):
+            r"((http(s)?://)?(t|telegram)\.(me|dog)/[A-Za-z0-9_]+( |$|\b))",
+            tex):
         tex = tex.replace(i[0], "")
     for x in await REDIS.smembers("words"):
         tex = tex.replace(x, "")
@@ -47,7 +50,8 @@ async def replaceshits(tex: str):
 
 @pbot.on_message(command("start") & private)
 async def startb(_, m: Message):
-    await m.reply_text("I'm alive!\nCustom forwarder bot Made by @annihilatorrrr !")
+    await m.reply_text(
+        "I'm alive!\nCustom forwarder bot Made by @annihilatorrrr !")
     return
 
 
@@ -87,7 +91,8 @@ async def addchannel(c: Client, m: Message):
         await REDIS.set(source.id, desti.id)
         await m.reply_text("Added!")
     else:
-        await m.reply_text("Provide like: /addchannel sourcechatid destinationchatid")
+        await m.reply_text(
+            "Provide like: /addchannel sourcechatid destinationchatid")
     return
 
 
@@ -151,13 +156,8 @@ async def rmword(_: Client, m: Message):
 
 async def worker(m: Message):
     if data := await REDIS.get(m.chat.id):
-        capt = (
-            await replaceshits(m.caption.html)
-            if m.caption
-            else await replaceshits(m.text.html)
-            if m.text
-            else None
-        )
+        capt = (await replaceshits(m.caption.html) if m.caption else
+                await replaceshits(m.text.html) if m.text else None)
         try:
             if m.text:
                 if not capt:
