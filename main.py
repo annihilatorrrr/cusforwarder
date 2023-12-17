@@ -17,10 +17,10 @@ from redis.asyncio import Redis
 TOKEN = environ.get("TOKEN", "6844752791:AAHxfSChzlt22hiKBYs0x3Q-hgQBk2_PZ64")
 STRING = environ.get(
     "STRING",
-    "BQGxY4UAH2vMpBlVlPhi0I4JRNdkdDo0BoQXZH5iMDMC7KiKC0Nq9FF3zZ5JSor8MJBtzEdU06JRVzZZLqcBRVYWgIn34elZouk2EpdI8gT9VDaQae_LjFhwZka9hmjUGDQUPqdMKGnDe_bodAy2IohRc8x4-9ba2co9hsTUIEDYY707eSHJV01aHOZ1QkKLMjuymkq-4EniGaxb1YHBY9s9EaEmVhrpQPS2YcSWNFdCfcsD2OMXqSBmGYtzUmORNQpqvYaygDBV4S4_7Wl3XYuaez3miATsTzGZ8tbWrhIdLWWPv4ebMpDo5IL8moTM6fFNICKEeg5MmCNJf7j535nA5-qCQgAAAABvO-26AA",
+    "BQFmONcAXr-CIDZ6SByz2Ypg0HMmDO_QGAk7jBc8RdXVSEo0KSuygVrxZivM6_1mz2MaBrudv4Y1PpXM2ogj6n94c580B7iOBIhT9mkoLbgNDgH_9XQ3CMZyeDetqXQiKrge6LKLIghotd3JB303X3Ofbw3-Fn9URbm5RQeEeSE1fLLSLnCSyX3DNfewi6_djZQAANhhibpiTUdin-gY7MebritkV72FIZaKrXn9qLf8Ebm6R7OOaLA26qyikk-AUXdZhAtjq2qK89gRg7_WtcMz_P00wRMeN1lsJPkf0Mld3lX6tccnNbc3YnoQq0UemyCP-gpPKdUwKrG2cjEW0UdQcET0IQAAAAF6OR8uAA",
 )
-API_ID = int(environ.get("API_ID", 28402565))
-API_HASH = environ.get("API_HASH", "fd3d8a3da43239bbfd0c2b3e048a4e47")
+API_ID = int(environ.get("API_ID", 23476439))
+API_HASH = environ.get("API_HASH", "1626e884119a29dbccbb78e39b48128f")
 REDISDBURL = environ.get(
     "DB_URL",
     "redis://default:BpDwFaKcdJqK1FxywB8JrOFw1B1X0C0K@redis-19798.c91.us-east-1-3.ec2.cloud.redislabs.com:19798",
