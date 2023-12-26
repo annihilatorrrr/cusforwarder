@@ -193,7 +193,7 @@ async def worker(m: Message):
 
 @ubot.on_message(channel & photo | text, group=2)
 async def forward(c: Client, m: Message):
-    c.loop.create_task(worker(m))
+    await worker(m)
     collect()
     return
 
